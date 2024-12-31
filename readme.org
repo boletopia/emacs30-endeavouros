@@ -1,0 +1,34 @@
+#+Title: Compiling Emacs 30 on EndeavourOS with Treesitter
+
+Use =F2 s / C-x 6 s= ([[https://www.gnu.org/software/emacs/manual/html_node/emacs/Two_002dColumn.html][source]]) to split two column; Then use =C-x 6 1= to merge it back together. 
+
+#+begin_src sh
+  cd Src
+  git clone git://git.sv.gnu.org/emacs -b emacs-30 emacs30
+
+  cd emacs30
+
+  ./autogen.sh
+
+  mkdir build && cd build
+  ../configure \
+      -C \                                       # caches the configure script results # caches the configure script results
+      --with-native-compilation \                # uses libgccjit to (hopefully) speed things up
+      --with-imagemagick \                       # uses imagemagick to load all images
+      --with-x-toolkit=lucid \                   # is required if you ssh to a computer running emacs --daemon and launch emacsclient via X forwarding
+      --with-tree-sitter \
+      --with-gnutls=ifavailable \
+      --prefix=$HOME/.local/emacs30
+
+  make -j8
+  make install -j8
+#+end_src
+
+Launching emacs
+
+#+begin_src sh
+~/.local/emacs30/bin/emacs --init-directory ~/Src/emacs30-config
+#+end_src
+
+Check what emacs was built with =M-x describe-variable RET describe-variable-features=
+
