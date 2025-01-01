@@ -20,8 +20,9 @@ Use =F2 s / C-x 6 s= ([[https://www.gnu.org/software/emacs/manual/html_node/emac
       --with-gnutls=ifavailable \
       --prefix=$HOME/.local/emacs30
 
-  make -j8
-  make install -j8
+  make -j8                                       # at first this failed so I ran bootstrap
+  make bootstrap -j8
+  make install -j8 
 #+end_src
 
 Launching emacs
@@ -30,5 +31,5 @@ Launching emacs
 ~/.local/emacs30/bin/emacs --init-directory ~/Src/emacs30-config
 #+end_src
 
-Check what emacs was built with =M-x describe-variable RET describe-variable-features=
+Check what emacs was built with =M-x describe-variable RET system-configuration-features=
 
